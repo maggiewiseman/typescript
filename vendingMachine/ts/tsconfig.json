@@ -1,0 +1,11 @@
+{
+    "version": "1.0.0",
+    "command": "tsc",
+    "compileOnSave": false,
+    "args": ["-p", "ts"],
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "es5",
+        "outFile": "../js/app.js"
+  }
+}
