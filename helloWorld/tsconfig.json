@@ -1,0 +1,12 @@
+{
+    "version": "1.0.0",
+    "command": "tsc",
+    "compileOnSave": false,
+    "args": ["-p", "."],
+    "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es5"
+  }
+}
