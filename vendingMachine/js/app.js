@@ -19,7 +19,7 @@ var SodaCategory = /** @class */ (function () {
         this.name = "Soda";
     }
     SodaCategory.prototype.getImageUrl = function () {
-        return "img/soda.jpg";
+        return "img/soda.jpeg";
     };
     return SodaCategory;
 }());
@@ -32,8 +32,18 @@ var CocaCola = /** @class */ (function () {
     }
     return CocaCola;
 }());
+/// <reference path="./product.ts" />
+var ProductFactory = /** @class */ (function () {
+    function ProductFactory() {
+    }
+    ProductFactory.GetProduct = function () {
+        return new CocaCola();
+    };
+    return ProductFactory;
+}());
 ///<reference path="./coin.ts" />
 ///<reference path="./product.ts" />
+///<reference path="./productFactory.ts" />
 var VendingMachineSize;
 (function (VendingMachineSize) {
     VendingMachineSize[VendingMachineSize["small"] = 6] = "small";
@@ -52,24 +62,34 @@ var VendingMachine = /** @class */ (function () {
     function VendingMachine() {
         var _this = this;
         this.paid = ko.observable(0);
+        this.selectedCell = ko.observable(new Cell(new CocaCola()));
+        this.cells = ko.observableArray([]);
+        this.select = function (cell) {
+            cell.sold(false);
+            _this.selectedCell(cell);
+        };
         this.acceptedCoins = [new Quarter()];
         this.acceptCoin = function (coin) {
-            _this.oldTotal = _this.paid();
-            _this.paid(_this.oldTotal + coin.Value);
+            var oldTotal = _this.paid();
+            _this.paid(oldTotal + coin.Value);
         };
     }
+    Object.defineProperty(VendingMachine.prototype, "size", {
+        set: function (givenSize) {
+            this.cells([]);
+            for (var i = 0; i < givenSize; i++) {
+                var product = ProductFactory.GetProduct();
+                console.log(product);
+                this.cells.push(new Cell(product));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return VendingMachine;
 }());
 ///<reference path = "vendingMachine.ts" />
 var machine = new VendingMachine();
+machine.size = VendingMachineSize.medium;
 ko.applyBindings(machine);
-/// <reference path="./product.ts" />
-var ProductFactory = /** @class */ (function () {
-    function ProductFactory() {
-    }
-    ProductFactory.GetProduct = function () {
-        return new CocaCola();
-    };
-    return ProductFactory;
-}());
 //# sourceMappingURL=app.js.map
