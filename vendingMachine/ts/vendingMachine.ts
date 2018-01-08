@@ -2,10 +2,11 @@
 
 
 class VendingMachine {
-    private paid = 0;
+    private paid = ko.observable(0);
+    private oldTotal: number;
     acceptCoin = (coin: Quarter): void => {
-        this.paid = this.paid + coin.Value;
-        var element = document.getElementById("total");
-        element.innerHTML = this.paid.toString();
+        this.oldTotal = this.paid();
+        this.paid(this.oldTotal + coin.Value);
+
     }
 }
