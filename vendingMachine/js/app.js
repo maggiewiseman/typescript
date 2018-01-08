@@ -1,19 +1,50 @@
-var Quarter = /** @class */ (function () {
-    function Quarter() {
-        this.value = .25;
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Coin = /** @class */ (function () {
+    function Coin(value) {
+        this.value = value;
+        this.value = value;
     }
-    Object.defineProperty(Quarter.prototype, "Value", {
-        get: function () {
-            return this.value;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    return Coin;
+}());
+var Quarter = /** @class */ (function (_super) {
+    __extends(Quarter, _super);
+    function Quarter() {
+        return _super.call(this, 0.25) || this;
+    }
     Quarter.prototype.getImageUrl = function () {
         return "img/quarter.jpg";
     };
     return Quarter;
-}());
+}(Coin));
+var Dime = /** @class */ (function (_super) {
+    __extends(Dime, _super);
+    function Dime() {
+        return _super.call(this, 0.10) || this;
+    }
+    Dime.prototype.getImageUrl = function () {
+        return "img/dime.png";
+    };
+    return Dime;
+}(Coin));
+var Dollar = /** @class */ (function (_super) {
+    __extends(Dollar, _super);
+    function Dollar() {
+        return _super.call(this, 1) || this;
+    }
+    Dollar.prototype.getImageUrl = function () {
+        return "img/dollar.png";
+    };
+    return Dollar;
+}(Coin));
 var SodaCategory = /** @class */ (function () {
     function SodaCategory() {
         this.name = "Soda";
@@ -64,7 +95,7 @@ var VendingMachine = /** @class */ (function () {
         this.paid = ko.observable(0);
         this.selectedCell = ko.observable(new Cell(new CocaCola()));
         this.cells = ko.observableArray([]);
-        this.acceptedCoins = [new Quarter()];
+        this.acceptedCoins = [new Dime(), new Quarter(), new Dollar()];
         this.canPay = ko.pureComputed(function () { return _this.paid() - _this.selectedCell().product.price >= 0; });
         this.select = function (cell) {
             cell.sold(false);
@@ -72,7 +103,7 @@ var VendingMachine = /** @class */ (function () {
         };
         this.acceptCoin = function (coin) {
             var oldTotal = _this.paid();
-            _this.paid(oldTotal + coin.Value);
+            _this.paid(oldTotal + coin.value);
         };
         this.pay = function () {
             if (_this.selectedCell().stock() < 1) {
