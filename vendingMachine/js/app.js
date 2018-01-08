@@ -45,30 +45,91 @@ var Dollar = /** @class */ (function (_super) {
     };
     return Dollar;
 }(Coin));
-var SodaCategory = /** @class */ (function () {
+var ProductCategory = /** @class */ (function () {
+    function ProductCategory() {
+        this.imgPath = "img/";
+    }
+    return ProductCategory;
+}());
+var SodaCategory = /** @class */ (function (_super) {
+    __extends(SodaCategory, _super);
     function SodaCategory() {
-        this.name = "Soda";
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.name = "Soda";
+        return _this;
     }
     SodaCategory.prototype.getImageUrl = function () {
-        return "img/soda.jpeg";
+        return this.imgPath + "soda.jpeg";
     };
     return SodaCategory;
-}());
+}(ProductCategory));
+var CandyCategory = /** @class */ (function (_super) {
+    __extends(CandyCategory, _super);
+    function CandyCategory() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.name = "Candy";
+        return _this;
+    }
+    CandyCategory.prototype.getImageUrl = function () {
+        return this.imgPath + "snickers.jpeg";
+    };
+    return CandyCategory;
+}(ProductCategory));
+var ChipsCategory = /** @class */ (function (_super) {
+    __extends(ChipsCategory, _super);
+    function ChipsCategory() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.name = "Chips";
+        return _this;
+    }
+    ChipsCategory.prototype.getImageUrl = function () {
+        return this.imgPath + "chips.jpeg";
+    };
+    return ChipsCategory;
+}(ProductCategory));
 /// <reference path = "productCategory.ts" />
+var Initial = /** @class */ (function () {
+    function Initial() {
+        this.name = "Please select a product";
+        this.price = 0;
+    }
+    return Initial;
+}());
 var CocaCola = /** @class */ (function () {
     function CocaCola() {
-        this.name = 'Coca Cola';
-        this.price = 2.30;
+        this.name = 'Pepsi';
+        this.price = 1.50;
         this.category = new SodaCategory();
     }
     return CocaCola;
+}());
+var Snickers = /** @class */ (function () {
+    function Snickers() {
+        this.name = 'Snickers';
+        this.price = 1.40;
+        this.category = new CandyCategory();
+    }
+    return Snickers;
+}());
+var LaysChips = /** @class */ (function () {
+    function LaysChips() {
+        this.name = 'Lay\'s Potato Chips';
+        this.price = 1.80;
+        this.category = new ChipsCategory();
+    }
+    return LaysChips;
 }());
 /// <reference path="./product.ts" />
 var ProductFactory = /** @class */ (function () {
     function ProductFactory() {
     }
     ProductFactory.GetProduct = function () {
-        return new CocaCola();
+        var random = Math.floor(Math.random() * 3);
+        switch (random) {
+            case 0: return new CocaCola();
+            case 1: return new LaysChips();
+            case 2: return new Snickers();
+        }
     };
     return ProductFactory;
 }());
@@ -93,7 +154,7 @@ var VendingMachine = /** @class */ (function () {
     function VendingMachine() {
         var _this = this;
         this.paid = ko.observable(0);
-        this.selectedCell = ko.observable(new Cell(new CocaCola()));
+        this.selectedCell = ko.observable(new Cell(new Initial()));
         this.cells = ko.observableArray([]);
         this.acceptedCoins = [new Dime(), new Quarter(), new Dollar()];
         this.canPay = ko.pureComputed(function () { return _this.paid() - _this.selectedCell().product.price >= 0; });

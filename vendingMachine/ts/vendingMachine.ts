@@ -9,7 +9,7 @@ enum VendingMachineSize {
 }
 
 class Cell {
-    constructor(public product: CocaCola) {
+    constructor(public product: Product) {
     }
     stock = ko.observable(3);
     sold = ko.observable(false);
@@ -17,7 +17,7 @@ class Cell {
 
 class VendingMachine {
     private paid = ko.observable(0);
-    private selectedCell = ko.observable(new Cell(new CocaCola()));
+    private selectedCell = ko.observable(new Cell(new Initial()));
     private cells = ko.observableArray([]);
     private acceptedCoins: Coin[] = [new Dime(), new Quarter(), new Dollar()];
 
