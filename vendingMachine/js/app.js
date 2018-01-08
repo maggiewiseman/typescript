@@ -14,7 +14,40 @@ var Quarter = /** @class */ (function () {
     };
     return Quarter;
 }());
-///<reference path = "coin.ts" />
+var SodaCategory = /** @class */ (function () {
+    function SodaCategory() {
+        this.name = "Soda";
+    }
+    SodaCategory.prototype.getImageUrl = function () {
+        return "img/soda.jpg";
+    };
+    return SodaCategory;
+}());
+/// <reference path = "productCategory.ts" />
+var CocaCola = /** @class */ (function () {
+    function CocaCola() {
+        this.name = 'Coca Cola';
+        this.price = 2.30;
+        this.category = new SodaCategory();
+    }
+    return CocaCola;
+}());
+///<reference path="./coin.ts" />
+///<reference path="./product.ts" />
+var VendingMachineSize;
+(function (VendingMachineSize) {
+    VendingMachineSize[VendingMachineSize["small"] = 6] = "small";
+    VendingMachineSize[VendingMachineSize["medium"] = 9] = "medium";
+    VendingMachineSize[VendingMachineSize["large"] = 12] = "large";
+})(VendingMachineSize || (VendingMachineSize = {}));
+var Cell = /** @class */ (function () {
+    function Cell(product) {
+        this.product = product;
+        this.stock = ko.observable(3);
+        this.sold = ko.observable(false);
+    }
+    return Cell;
+}());
 var VendingMachine = /** @class */ (function () {
     function VendingMachine() {
         var _this = this;
@@ -30,4 +63,13 @@ var VendingMachine = /** @class */ (function () {
 ///<reference path = "vendingMachine.ts" />
 var machine = new VendingMachine();
 ko.applyBindings(machine);
+/// <reference path="./product.ts" />
+var ProductFactory = /** @class */ (function () {
+    function ProductFactory() {
+    }
+    ProductFactory.GetProduct = function () {
+        return new CocaCola();
+    };
+    return ProductFactory;
+}());
 //# sourceMappingURL=app.js.map
