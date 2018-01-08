@@ -17,7 +17,10 @@
         <div class="col-md-4">
             <h4>Paid: $<span id="total" data-bind="text: paid"></span></h4>
             <br/><br/>
-            <button class="btn btn-primary" onclick="machine.acceptCoin(new Quarter())">Insert Quarter</button>
+            <div data-bind="foreach: acceptedCoins">
+                <img data-bind="attr: {src: getImageUrl(), alt: value }, click: $parent.acceptCoin" />
+                <!-- context of the forEach is a coin, but it's parent, the vendingMachine is what has the acceptCoin method, that is why we must use $parent -->
+            </div>
         </div>
     </div>
     <script
