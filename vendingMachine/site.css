@@ -7,3 +7,7 @@
 .image img {
     height: 100%;
 }
+
+.selected {
+    border: 1px solid red;
+}

@@ -12,7 +12,8 @@
     <div class="container">
         <h1>Vending Machine Simulation</h1>
         <div class="col-md-8 machine" data-bind="foreach: cells">
-            <div class="col-md-4 cell">
+            <div class="col-md-4 cell", data-bind="click: $parent.select, css: {selected: $parent.selectedCell().product == $data.product, sold: sold}">
+                <!--selected and sold classes get added if the expressions or boolean in the case of "sold" are true -->
                 <div class="col-md-6 image">
                     <img data-bind="attr: {src: product.category.getImageUrl(), alt: product.category.name }" />
                 </div>
@@ -31,6 +32,12 @@
                 <img data-bind="attr: {src: getImageUrl(), alt: value }, click: $parent.acceptCoin" />
                 <!-- context of the forEach is a coin, but it's parent, the vendingMachine is what has the acceptCoin method, that is why we must use $parent -->
             </div>
+
+            <h3 data-bind="with: selectedCell">
+                <div data-bind="text: product.name"></div>
+                <div>$<span data-bind="text: product.price"></span>
+                </div>
+            </h3>
         </div>
     </div>
     <script
